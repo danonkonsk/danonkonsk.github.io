@@ -13,7 +13,7 @@
             margin: 0;
             padding: 0;
         }
-        .container {
+        .container, .question-container {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -94,17 +94,17 @@
         }
     </style>
 </head>
-<body>
+<body onclick="showQuestion()">
     <div class="container" id="container">
         <h1>З Днем Святого Валентина!</h1>
-        <p>Кохана/Коханий,</p>
-        <p>Я дуже вдячний, що ти зі мною.</p>
+        <p>Кохана/Коханий, ти дуже дорога мені людина, і я люблю тебе понад усе!</p>
+    </div>
+    <div class="question-container" id="question-container" style="display:none;">
         <p>Чи не проти ти згадати весь наш шлях, який хоч і не довгий, але дуже насичений?</p>
-        <div class="buttons" id="initial-buttons">
+        <div class="buttons">
             <button class="btn" onclick="changeText('yes')">Так</button>
             <button class="btn" onclick="changeText('no')">Ні</button>
         </div>
-        <div id="additional-content"></div>
     </div>
     <script>
         function createHeart() {
@@ -118,40 +118,50 @@
 
         setInterval(createHeart, 300);
 
+        function showQuestion() {
+            document.getElementById('container').style.display = 'none';
+            document.getElementById('question-container').style.display = 'flex';
+            document.body.onclick = null;
+        }
+
         function clearContainer() {
-            const container = document.getElementById('container');
+            const container = document.getElementById('question-container');
             container.innerHTML = '';
         }
 
         function changeText(answer) {
             clearContainer();
-            const container = document.getElementById('container');
+            const container = document.getElementById('question-container');
             container.style.height = '100vh';
             if (answer === 'yes') {
                 container.innerHTML = '<p>Чудово! Давайте почнемо згадувати наші моменти разом.</p>';
             } else {
                 container.innerHTML = '<p>Може передумаєш?</p>' +
+                    '<div class="buttons">' +
                     '<button class="btn" onclick="secondChoice(\'yes\')">Добре</button>' +
-                    '<button class="btn" onclick="secondChoice(\'no\')">Ні, не хочу</button>';
+                    '<button class="btn" onclick="secondChoice(\'no\')">Ні, не хочу</button>' +
+                    '</div>';
             }
         }
 
         function secondChoice(answer) {
             clearContainer();
-            const container = document.getElementById('container');
+            const container = document.getElementById('question-container');
             container.style.height = '100vh';
             if (answer === 'yes') {
                 container.innerHTML = '<p>Чудово! Давайте почнемо згадувати наші моменти разом.</p>';
             } else {
                 container.innerHTML = '<p>Ти впевнена?</p>' +
+                    '<div class="buttons">' +
                     '<button class="btn" onclick="finalChoice(\'yes\')">Так</button>' +
-                    '<button class="btn" onclick="finalChoice(\'no\')">Ні</button>';
+                    '<button class="btn" onclick="finalChoice(\'no\')">Ні</button>' +
+                    '</div>';
             }
         }
 
         function finalChoice(answer) {
             clearContainer();
-            const container = document.getElementById('container');
+            const container = document.getElementById('question-container');
             container.style.height = '100vh';
             if (answer === 'yes') {
                 container.innerHTML = '<p>Дуже шкода, хотілось би щоб ми це згадали разом, але я все одно тебе дуже люблю, сонечко.</p>';
